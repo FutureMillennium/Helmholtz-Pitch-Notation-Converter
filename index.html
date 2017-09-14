@@ -60,7 +60,11 @@ function AddNoteGlobal(curItem) {
 		if (curItem.octave == null)
 			return false;
 
-		curItem.octave = curItem.octave % notes.length;
+		if (curItem.noteI >= notes.length)
+			curItem.noteI = curItem.noteI % notes.length;
+		else while (curItem.noteI < 0)
+			curItem.noteI += 12;
+			
 		curNotes.push(curItem);
 		return true;
 	}
