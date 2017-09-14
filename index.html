@@ -237,6 +237,15 @@ helmholtzInput.onkeyup = function (e) {
 						isDone = true;
 					}
 					break;
+				case '′':
+				case '͵':
+				case '\'':
+				case 'i':
+					if (curItem.octave == null)
+						curItem.octave = 1;
+					else
+						curItem.octave++;
+					break;
 				case ',':
 				case '–':
 				case ' ':
@@ -266,8 +275,10 @@ helmholtzInput.onkeyup = function (e) {
 						isCurCapital = true;
 					}
 				} else {
-					isError = true;
-					break;
+					if (curItem.octave == null)
+						curItem.octave = 1;
+					else
+						curItem.octave++;
 				}
 			}
 		}
