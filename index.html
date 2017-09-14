@@ -1,20 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Helmholtz Pitch Converter</title>
-    <script>
-
-    </script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Helmholtz Pitch Notation Converter</title>
+<style>
+.error {
+	outline: 2px red solid;
+}
+</style>
 </head>
 <body>
 
-<div>Helmholtz pitch notation: <input type="text" /></div>
-<div>Scientific pitch notation: <input type="text" /></div>
-<div>Guitar Pro: <input type="text" /></div>
-<div>Yamaha: <input type="text" /></div>
-    
+<!-- <h1>Helmholtz Pitch Notation Converter</h1> -->
+
+<div>Frequency (Hz): <input type="text" id="frequency" /></div>
+<div>Helmholtz pitch notation: <input type="text" id="helmholtz" /></div>
+<div>Scientific pitch notation: <input type="text" id="scientific" /></div>
+<div>Guitar Pro: <input type="text" id="guitarpro" /></div>
+<div>Yamaha: <input type="text" id="yamaha" /></div>
+<div>MIDI: <input type="text" id="midi" /></div>
+	
+
+<script>
+//document.addEventListener('DOMContentLoaded', function(event) {
+
+var notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+var noteFrequencies = [
+	261.63,
+	277.18,
+	293.66,
+	311.13,
+	329.63,
+	349.23,
+	369.99,
+	392.00,
+	415.30,
+	440.00,
+	466.16,
+	493.88,
+];
+
+var frequencyInput = document.getElementById('frequency'),
+	helmholtzInput = document.getElementById('helmholtz'),
+	scientificInput = document.getElementById('scientific'),
+	guitarProInput = document.getElementById('guitarpro'),
+	yamahaInput = document.getElementById('yamaha'),
+	midiInput = document.getElementById('midi');
+var prevHelmholtzText = '',
+	prevScientificText = '';
+var curNotes;
+
+helmholtzInput.onkeyup = function (e) {
+	if (prevHelmholtzText != this.value) {
+		// @TODO
+	}
+};
+
+scientificInput.onkeyup = function (e) {
+	if (prevScientificText != this.value) {
+		var text = this.value;
+		var max = text.length;
+		var curItem;
+		var isError = false;
+
+		function InitCurItem() {
+			curItem = {
+				noteI: null,
+				octave: null,
+			};
+		}
+
+		function AddNote() {
+			if (curItem.octave == '-')
+				return false;
+			if (curItem.noteI != null && curItem.octave != null)
+				curNotes.push(curItem);
+			return true;
+		}
+
+		InitCurItem();
+		curNotes = [];
+
+		for (var i = 0; i < max; i++) {
+			var c = text[i].toUpperCase();
+
+			if (c >= '0' && c <= '9') {
+				if (curItem.octave == null || curItem.octave == '-') {
+					var num = parseInt(c);
+					if (curItem.octave == '-')
+						num = num * -1;
+					curItem.octave = num;
+				} else {
+					// @TODO octaves higher than 9?
+					isError = true;
+					break;
+				}
+			}
+			else switch(c) {
+				case '#':
+					if (curItem.noteI == null) {
+						isError = true;
+					} else {
+						curItem.noteI++;
+					}
+					break;
+				case 'b':
+					if (curItem.noteI == null) {
+						// might be the B note
+					} else {
+						curItem.noteI--;
+					}
+					break;
+				case '-':
+					if (curItem.octave != null) {
+						isError = true;
+					} else {
+						curItem.octave = '-';
+					}
+					break;
+				case ',':
+				case '–':
+				case ' ':
+					if (AddNote() == false) {
+						isError = true;
+						break;
+					}
+					InitCurItem();
+					break;
+			}
+
+			if (isError == true) {
+				break;
+			}
+
+			var noteI = notes.indexOf(c);
+
+			if (noteI != -1)
+				curItem.noteI = noteI;
+		}
+
+		if (AddNote() == false)
+			isError = true;
+		
+		if (curNotes.length == 0)
+			isError = true;
+		else {
+			var output = '';
+
+			max = curNotes.length;
+
+			for (var i = 0; i < max; i++) {
+				var note = curNotes[i];
+
+				output += noteFrequencies[note.noteI] * Math.pow(2, note.octave - 4);
+				if (i != max - 1)
+					output += ", ";
+			}
+
+			frequencyInput.value = output;
+
+
+			output = '';
+			max = curNotes.length;
+
+			for (var i = 0; i < max; i++) {
+				var note = curNotes[i];
+
+				output += notes[note.noteI] + (note.octave + 1);
+				if (i != max - 1)
+					output += ", ";
+			}
+
+			guitarProInput.value = output;
+
+
+			output = '';
+			max = curNotes.length;
+
+			for (var i = 0; i < max; i++) {
+				var note = curNotes[i];
+
+				output += notes[note.noteI] + (note.octave - 1);
+				if (i != max - 1)
+					output += ", ";
+			}
+
+			yamahaInput.value = output;
+
+
+			output = '';
+			max = curNotes.length;
+
+			for (var i = 0; i < max; i++) {
+				var note = curNotes[i];
+
+				output += ((note.octave + 1) * 12 + note.noteI);
+				if (i != max - 1)
+					output += ", ";
+			}
+
+			midiInput.value = output;
+		}
+
+		if (isError && text.length > 0) {
+			this.className = 'error';
+		} else {
+			this.className = '';
+		}
+
+		prevScientificText = text;
+	}
+};
+
+//});
+</script>
+
 </body>
 </html>
