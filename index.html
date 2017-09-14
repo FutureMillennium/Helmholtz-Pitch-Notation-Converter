@@ -15,12 +15,12 @@
 
 <h1>Helmholtz Pitch Notation Converter</h1>
 
-<div>Frequency (Hz): <input type="text" id="frequency" /></div>
+<div>Frequency (Hz): <input type="text" id="frequency" readonly /></div>
 <div>Helmholtz pitch notation: <input type="text" id="helmholtz" /></div>
 <div>Scientific pitch notation: <input type="text" id="scientific" /></div>
 <div>Guitar Pro: <input type="text" id="guitarpro" /></div>
 <div>Yamaha: <input type="text" id="yamaha" /></div>
-<div>MIDI: <input type="text" id="midi" /></div>
+<div>MIDI: <input type="text" id="midi" readonly /></div>
 	
 
 <script>
@@ -86,6 +86,7 @@ function OutputFrequency() {
 			output += ", ";
 	}
 
+	frequencyInput.className = "";
 	frequencyInput.value = output;
 	prevFrequencyText = output;
 }
@@ -117,6 +118,7 @@ function OutputHelmholtz() {
 			output += " ";
 	}
 
+	helmholtzInput.className = "";
 	helmholtzInput.value = output;
 	prevHelmholtzText = output;
 }
@@ -133,6 +135,7 @@ function OutputScientific() {
 			output += ", ";
 	}
 
+	scientificInput.className = "";
 	scientificInput.value = output;
 	prevScientificText = output;
 }
@@ -149,6 +152,7 @@ function OutputGuitarPro() {
 			output += ", ";
 	}
 
+	guitarProInput.className = "";
 	guitarProInput.value = output;
 	prevGuitarProText = output;
 }
@@ -165,6 +169,7 @@ function OutputYamaha() {
 			output += ", ";
 	}
 
+	yamahaInput.className = "";
 	yamahaInput.value = output;
 	prevYamahaText = output;
 }
@@ -181,6 +186,7 @@ function OutputMIDI() {
 			output += ", ";
 	}
 
+	midiInput.className = "";
 	midiInput.value = output;
 	prevMIDIText = output;
 }
@@ -298,6 +304,11 @@ helmholtzInput.onkeyup = function (e) {
 						isCurCapital = true;
 					}
 				} else {
+					if (curItem.noteI != noteI) {
+						isError = true;
+						break;
+					}
+
 					if (curItem.octave == null)
 						curItem.octave = 1;
 					else
