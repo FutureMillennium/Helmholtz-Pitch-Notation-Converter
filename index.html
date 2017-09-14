@@ -21,7 +21,10 @@
 <div>Guitar Pro: <input type="text" id="guitarpro" /></div>
 <div>Yamaha: <input type="text" id="yamaha" /></div>
 <div>MIDI: <input type="text" id="midi" readonly /></div>
-	
+
+<p><a href="https://www.patreon.com/FutureMillennium">Consider supporting on Patreon</a></p>
+
+<p>© 2017 <a href="http://futuremillennium.com/">Zdeněk Gromnica aka FutureMillennium</a></p>
 
 <script>
 //document.addEventListener('DOMContentLoaded', function(event) {
@@ -191,6 +194,97 @@ function OutputMIDI() {
 	prevMIDIText = output;
 }
 
+function AcceptScientific(field) {
+	var text = field.value;
+	var max = text.length;
+	var curItem;
+	var isError = false;
+
+	function InitCurItem() {
+		curItem = {
+			noteI: null,
+			octave: null,
+		};
+	}
+
+	function AddNote() {
+		return AddNoteGlobal(curItem);
+	}
+
+	InitCurItem();
+	curNotes = [];
+
+	for (var i = 0; i < max; i++) {
+		var c = text[i].toUpperCase();
+
+		if (c >= '0' && c <= '9') {
+			if (curItem.octave == null || curItem.octave == '-') {
+				var num = parseInt(c);
+				if (curItem.octave == '-')
+					num = num * -1;
+				curItem.octave = num;
+			} else {
+				// @TODO octaves higher than 9?
+				isError = true;
+				break;
+			}
+		}
+		else switch(c) {
+			case '#':
+				if (curItem.noteI == null) {
+					isError = true;
+				} else {
+					curItem.noteI++;
+				}
+				break;
+			case 'b':
+				if (curItem.noteI == null) {
+					// might be the B note
+				} else {
+					curItem.noteI--;
+				}
+				break;
+			case '-':
+				if (curItem.octave != null) {
+					isError = true;
+				} else {
+					curItem.octave = '-';
+				}
+				break;
+			case ',':
+			case '–':
+			case ' ':
+				if (AddNote() == false) {
+					isError = true;
+					break;
+				}
+				InitCurItem();
+				break;
+		}
+
+		if (isError == true) {
+			break;
+		}
+
+		var noteI = notes.indexOf(c);
+
+		if (noteI != -1)
+			curItem.noteI = noteI;
+	}
+
+	if (AddNote() == false)
+		isError = true;
+	
+	if (curNotes.length == 0)
+		isError = true;
+
+	if (isError && text.length > 0) {
+		field.className = 'error';
+	} else {
+		field.className = '';
+	}
+}
+
 helmholtzInput.onkeyup = function (e) {
 	if (prevHelmholtzText != this.value) {
 		var text = this.value;
@@ -336,109 +430,58 @@ helmholtzInput.onkeyup = function (e) {
 			this.className = '';
 		}
 
-		prevHelmholtzText = text;
+		prevHelmholtzText = this.value;
 	}
 };
 
 scientificInput.onkeyup = function (e) {
 	if (prevScientificText != this.value) {
-		var text = this.value;
-		var max = text.length;
-		var curItem;
-		var isError = false;
+		AcceptScientific(this);
 
-		function InitCurItem() {
-			curItem = {
-				noteI: null,
-				octave: null,
-			};
-		}
-
-		function AddNote() {
-			return AddNoteGlobal(curItem);
-		}
-
-		InitCurItem();
-		curNotes = [];
-
-		for (var i = 0; i < max; i++) {
-			var c = text[i].toUpperCase();
-
-			if (c >= '0' && c <= '9') {
-				if (curItem.octave == null || curItem.octave == '-') {
-					var num = parseInt(c);
-					if (curItem.octave == '-')
-						num = num * -1;
-					curItem.octave = num;
-				} else {
-					// @TODO octaves higher than 9?
-					isError = true;
-					break;
-				}
-			}
-			else switch(c) {
-				case '#':
-					if (curItem.noteI == null) {
-						isError = true;
-					} else {
-						curItem.noteI++;
-					}
-					break;
-				case 'b':
-					if (curItem.noteI == null) {
-						// might be the B note
-					} else {
-						curItem.noteI--;
-					}
-					break;
-				case '-':
-					if (curItem.octave != null) {
-						isError = true;
-					} else {
-						curItem.octave = '-';
-					}
-					break;
-				case ',':
-				case '–':
-				case ' ':
-					if (AddNote() == false) {
-						isError = true;
-						break;
-					}
-					InitCurItem();
-					break;
-			}
-
-			if (isError == true) {
-				break;
-			}
-
-			var noteI = notes.indexOf(c);
-
-			if (noteI != -1)
-				curItem.noteI = noteI;
-		}
-
-		if (AddNote() == false)
-			isError = true;
-		
-		if (curNotes.length == 0)
-			isError = true;
-		else {
+		if (curNotes.length > 0) {
 			OutputFrequency();
 			OutputHelmholtz();
+			// this
 			OutputGuitarPro();
 			OutputYamaha();
 			OutputMIDI();
 		}
 
-		if (isError && text.length > 0) {
-			this.className = 'error';
-		} else {
-			this.className = '';
+		prevScientificText = this.value;
+	}
+};
+
+guitarProInput.onkeyup = function (e) {
+	if (prevGuitarProText != this.value) {
+		AcceptScientific(this);
+
+		if (curNotes.length > 0) {
+			OutputFrequency();
+			OutputHelmholtz();
+			OutputScientific();
+			// this
+			OutputYamaha();
+			OutputMIDI();
 		}
 
-		prevScientificText = text;
+		prevGuitarProText = this.value;
+	}
+};
+
+yamahaInput.onkeyup = function (e) {
+	if (prevYamahaText != this.value) {
+		AcceptScientific(this);
+
+		if (curNotes.length > 0) {
+			OutputFrequency();
+			OutputHelmholtz();
+			OutputScientific();
+			OutputGuitarPro();
+			// this
+			OutputMIDI();
+		}
+
+		prevYamahaText = this.value;
 	}
 };
 
