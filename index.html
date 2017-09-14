@@ -67,6 +67,36 @@ function OutputFrequency() {
 	frequencyInput.value = output;
 }
 
+function OutputHelmholtz() {
+	var output = '';
+	var max = curNotes.length;
+
+	for (var i = 0; i < max; i++) {
+		var note = curNotes[i];
+		var name = notes[note.noteI];
+		var octave = note.octave;
+		var symbol = "′";
+
+		if (octave >= 3) {
+			octave -= 3;
+			name = name.toLowerCase();
+		} else {
+			octave -= 2;
+			octave *= -1;
+		}
+
+		for (var j = 0; j < octave; j++) {
+			name += symbol;
+		}
+
+		output += name;
+		if (i != max - 1)
+			output += " ";
+	}
+
+	helmholtzInput.value = output;
+}
+
 function OutputGuitarPro() {
 	var output = '';
 	var max = curNotes.length;
@@ -208,6 +238,7 @@ scientificInput.onkeyup = function (e) {
 			isError = true;
 		else {
 			OutputFrequency();
+			OutputHelmholtz();
 			OutputGuitarPro();
 			OutputYamaha();
 			OutputMIDI();
