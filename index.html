@@ -52,6 +52,20 @@ var prevHelmholtzText = '',
 	prevScientificText = '';
 var curNotes;
 
+function AddNoteGlobal(curItem) {
+	if (curItem.octave == '-')
+		return false;
+	
+	if (curItem.noteI != null) {
+		if (curItem.octave == null)
+			return false;
+
+		curItem.octave = curItem.octave % notes.length;
+		curNotes.push(curItem);
+		return true;
+	}
+}
+
 function OutputFrequency() {
 	var output = '';
 	var max = curNotes.length;
@@ -173,23 +187,18 @@ helmholtzInput.onkeyup = function (e) {
 		}
 
 		function AddNote() {
-			if (curItem.octave == '-')
-				return false;
-			if (curItem.noteI != null) {
-				if (curItem.octave == null) {
-					curItem.octave = 0;
-				}
-
-				if (isCurCapital == true) {
-					curItem.octave = 2 - curItem.octave;
-				} else {
-					curItem.octave += 3;
-				}
-
-				isCurCapital = false;
-				curNotes.push(curItem);
+			if (curItem.octave == null) {
+				curItem.octave = 0;
 			}
-			return true;
+
+			if (isCurCapital == true) {
+				curItem.octave = 2 - curItem.octave;
+			} else {
+				curItem.octave += 3;
+			}
+
+			isCurCapital = false;
+			return AddNoteGlobal(curItem);
 		}
 
 		InitCurItem();
@@ -321,11 +330,7 @@ scientificInput.onkeyup = function (e) {
 		}
 
 		function AddNote() {
-			if (curItem.octave == '-')
-				return false;
-			if (curItem.noteI != null && curItem.octave != null)
-				curNotes.push(curItem);
-			return true;
+			return AddNoteGlobal(curItem);
 		}
 
 		InitCurItem();
