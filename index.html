@@ -48,8 +48,12 @@ var frequencyInput = document.getElementById('frequency'),
 	guitarProInput = document.getElementById('guitarpro'),
 	yamahaInput = document.getElementById('yamaha'),
 	midiInput = document.getElementById('midi');
-var prevHelmholtzText = '',
-	prevScientificText = '';
+var prevFrequencyText = '',
+	prevHelmholtzText = '',
+	prevScientificText = '',
+	prevGuitarProText = '',
+	prevYamahaText = '',
+	prevMIDIText = '';
 var curNotes;
 
 function AddNoteGlobal(curItem) {
@@ -64,7 +68,7 @@ function AddNoteGlobal(curItem) {
 			curItem.noteI = curItem.noteI % notes.length;
 		else while (curItem.noteI < 0)
 			curItem.noteI += 12;
-			
+
 		curNotes.push(curItem);
 		return true;
 	}
@@ -83,6 +87,7 @@ function OutputFrequency() {
 	}
 
 	frequencyInput.value = output;
+	prevFrequencyText = output;
 }
 
 function OutputHelmholtz() {
@@ -113,6 +118,7 @@ function OutputHelmholtz() {
 	}
 
 	helmholtzInput.value = output;
+	prevHelmholtzText = output;
 }
 
 function OutputScientific() {
@@ -128,6 +134,7 @@ function OutputScientific() {
 	}
 
 	scientificInput.value = output;
+	prevScientificText = output;
 }
 
 function OutputGuitarPro() {
@@ -143,6 +150,7 @@ function OutputGuitarPro() {
 	}
 
 	guitarProInput.value = output;
+	prevGuitarProText = output;
 }
 
 function OutputYamaha() {
@@ -158,6 +166,7 @@ function OutputYamaha() {
 	}
 
 	yamahaInput.value = output;
+	prevYamahaText = output;
 }
 
 function OutputMIDI() {
@@ -173,6 +182,7 @@ function OutputMIDI() {
 	}
 
 	midiInput.value = output;
+	prevMIDIText = output;
 }
 
 helmholtzInput.onkeyup = function (e) {
