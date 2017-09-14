@@ -13,7 +13,7 @@
 </head>
 <body>
 
-<!-- <h1>Helmholtz Pitch Notation Converter</h1> -->
+<h1>Helmholtz Pitch Notation Converter</h1>
 
 <div>Frequency (Hz): <input type="text" id="frequency" /></div>
 <div>Helmholtz pitch notation: <input type="text" id="helmholtz" /></div>
@@ -51,6 +51,66 @@ var frequencyInput = document.getElementById('frequency'),
 var prevHelmholtzText = '',
 	prevScientificText = '';
 var curNotes;
+
+function OutputFrequency() {
+	var output = '';
+	var max = curNotes.length;
+
+	for (var i = 0; i < max; i++) {
+		var note = curNotes[i];
+
+		output += noteFrequencies[note.noteI] * Math.pow(2, note.octave - 4);
+		if (i != max - 1)
+			output += ", ";
+	}
+
+	frequencyInput.value = output;
+}
+
+function OutputGuitarPro() {
+	var output = '';
+	var max = curNotes.length;
+
+	for (var i = 0; i < max; i++) {
+		var note = curNotes[i];
+
+		output += notes[note.noteI] + (note.octave + 1);
+		if (i != max - 1)
+			output += ", ";
+	}
+
+	guitarProInput.value = output;
+}
+
+function OutputYamaha() {
+	var output = '';
+	var max = curNotes.length;
+
+	for (var i = 0; i < max; i++) {
+		var note = curNotes[i];
+
+		output += notes[note.noteI] + (note.octave - 1);
+		if (i != max - 1)
+			output += ", ";
+	}
+
+	yamahaInput.value = output;
+}
+
+function OutputMIDI() {
+	output = '';
+	max = curNotes.length;
+
+	for (var i = 0; i < max; i++) {
+		var note = curNotes[i];
+
+		output += ((note.octave + 1) * 12 + note.noteI);
+		if (i != max - 1)
+			output += ", ";
+	}
+
+	midiInput.value = output;
+}
 
 helmholtzInput.onkeyup = function (e) {
 	if (prevHelmholtzText != this.value) {
@@ -147,61 +207,10 @@ scientificInput.onkeyup = function (e) {
 		if (curNotes.length == 0)
 			isError = true;
 		else {
-			var output = '';
-
-			max = curNotes.length;
-
-			for (var i = 0; i < max; i++) {
-				var note = curNotes[i];
-
-				output += noteFrequencies[note.noteI] * Math.pow(2, note.octave - 4);
-				if (i != max - 1)
-					output += ", ";
-			}
-
-			frequencyInput.value = output;
-
-
-			output = '';
-			max = curNotes.length;
-
-			for (var i = 0; i < max; i++) {
-				var note = curNotes[i];
-
-				output += notes[note.noteI] + (note.octave + 1);
-				if (i != max - 1)
-					output += ", ";
-			}
-
-			guitarProInput.value = output;
-
-
-			output = '';
-			max = curNotes.length;
-
-			for (var i = 0; i < max; i++) {
-				var note = curNotes[i];
-
-				output += notes[note.noteI] + (note.octave - 1);
-				if (i != max - 1)
-					output += ", ";
-			}
-
-			yamahaInput.value = output;
-
-
-			output = '';
-			max = curNotes.length;
-
-			for (var i = 0; i < max; i++) {
-				var note = curNotes[i];
-
-				output += ((note.octave + 1) * 12 + note.noteI);
-				if (i != max - 1)
-					output += ", ";
-			}
-
-			midiInput.value = output;
+			OutputFrequency();
+			OutputGuitarPro();
+			OutputYamaha();
+			OutputMIDI();
 		}
 
 		if (isError && text.length > 0) {
