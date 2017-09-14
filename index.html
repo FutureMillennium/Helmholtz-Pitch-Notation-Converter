@@ -6,21 +6,101 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Helmholtz Pitch Notation Converter</title>
 <style>
+body {
+	font-size: 16px;
+	font-family: sans-serif;
+	background-color: #F8F8F8;
+	margin: 25px 25px 75px;
+}
+h1 {
+	font-size: 24px;
+	background: #eee;
+    margin: -25px -25px 25px;
+    padding: 25px;
+}
+h1 span {
+	font-size: 18px;
+	font-weight: normal;
+}
+div {
+	width: 100%;
+	margin-bottom: 40px;
+}
+div div {
+	position: relative;
+	height: 50px;
+	margin: 0;
+}
+input {
+	font-size: 16px;
+	position: absolute;
+	width: calc(100% - 220px);
+	right: 0;
+	height: 20px;
+	padding: 10px;
+	background: #fff;
+    border: 1px #ccc solid;
+}
+input[readonly] {
+    background-color: #eee;
+	border: 1px #eee solid;
+}
+.readonly {
+	color: #999;
+}
+
+div span {
+	width: 180px;
+	text-align: right;
+	display: inline-block;
+	line-height: 40px;
+}
+a {
+	color: black;
+	background-image: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15));
+	background-size: 2px 2px;
+	background-repeat: repeat-x;
+	background-position: left bottom;
+	text-decoration: none;
+	padding-bottom: 1px;
+}
 .error {
 	outline: 2px red solid;
+}
+@media screen and (max-width: 600px) {
+	h1 {
+		font-size: 21px;
+	}
+	h1 span {
+		font-size: 16px;
+	}
+	div div {
+		height: auto;
+	}
+	input {
+		position: unset;
+		width: 100%;
+		display: block;
+	}
+	div span {
+		width: 100%;
+		display: block;
+	}
 }
 </style>
 </head>
 <body>
 
-<h1>Helmholtz Pitch Notation Converter</h1>
+<h1>Helmholtz Pitch Notation Converter <span>by <a href="http://futuremillennium.com/">Zdeněk Gromnica aka FutureMillennium</a></span></h1>
 
-<div>Frequency (Hz): <input type="text" id="frequency" readonly /></div>
-<div>Helmholtz pitch notation: <input type="text" id="helmholtz" /></div>
-<div>Scientific pitch notation: <input type="text" id="scientific" /></div>
-<div>Guitar Pro: <input type="text" id="guitarpro" /></div>
-<div>Yamaha: <input type="text" id="yamaha" /></div>
-<div>MIDI: <input type="text" id="midi" readonly /></div>
+<div>
+	<div class="readonly"><span>Frequency (Hz)</span><input type="text" id="frequency" readonly /></div>
+	<div><label><span>Helmholtz pitch notation</span><input type="text" id="helmholtz" /></label></div>
+	<div><label><span>Scientific pitch notation</span><input type="text" id="scientific" /></label></div>
+	<div><label><span>Guitar Pro</span><input type="text" id="guitarpro" /></label></div>
+	<div><label><span>Yamaha</span><input type="text" id="yamaha" /></label></div>
+	<div class="readonly"><span>MIDI</span><input type="text" id="midi" readonly /></div>
+</div>
 
 <p><a href="https://www.patreon.com/FutureMillennium">Consider supporting on Patreon</a></p>
 
