@@ -295,6 +295,7 @@ function AcceptScientific(field) {
 	curNotes = [];
 
 	for (var i = 0; i < max; i++) {
+		var isDone = false;
 		var c = text[i].toUpperCase();
 
 		if (c >= '0' && c <= '9') {
@@ -303,6 +304,7 @@ function AcceptScientific(field) {
 				if (curItem.octave == '-')
 					num = num * -1;
 				curItem.octave = num;
+				isDone = true;
 			} else {
 				// @TODO octaves higher than 9?
 				isError = true;
@@ -315,6 +317,7 @@ function AcceptScientific(field) {
 					isError = true;
 				} else {
 					curItem.noteI++;
+					isDone = true;
 				}
 				break;
 			case 'b':
@@ -322,6 +325,7 @@ function AcceptScientific(field) {
 					// might be the B note
 				} else {
 					curItem.noteI--;
+					isDone = true;
 				}
 				break;
 			case '-':
@@ -329,6 +333,7 @@ function AcceptScientific(field) {
 					isError = true;
 				} else {
 					curItem.octave = '-';
+					isDone = true;
 				}
 				break;
 			case ',':
@@ -339,6 +344,7 @@ function AcceptScientific(field) {
 					break;
 				}
 				InitCurItem();
+				isDone = true;
 				break;
 		}
 
@@ -346,10 +352,18 @@ function AcceptScientific(field) {
 			break;
 		}
 
+		if (isDone == true)
+			continue;
+
 		var noteI = notes.indexOf(c);
 
-		if (noteI != -1)
+		if (noteI != -1) {
+			if (curItem.noteI != null) {
+				isError = true;
+				break;
+			}
 			curItem.noteI = noteI;
+		}
 	}
 
 	if (AddNote() == false)
@@ -536,6 +550,10 @@ guitarProInput.onkeyup = function (e) {
 		AcceptScientific(this);
 
 		if (curNotes.length > 0) {
+			for (var i = 0; i < curNotes.length; i++) {
+				curNotes[i].octave -= 1;
+			}
+
 			OutputFrequency();
 			OutputHelmholtz();
 			OutputScientific();
@@ -553,6 +571,10 @@ yamahaInput.onkeyup = function (e) {
 		AcceptScientific(this);
 
 		if (curNotes.length > 0) {
+			for (var i = 0; i < curNotes.length; i++) {
+				curNotes[i].octave += 1;
+			}
+
 			OutputFrequency();
 			OutputHelmholtz();
 			OutputScientific();
