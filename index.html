@@ -94,20 +94,39 @@ a {
 <h1>Helmholtz Pitch Notation Converter <span>by <a href="http://futuremillennium.com/">Zdeněk Gromnica aka FutureMillennium</a></span></h1>
 
 <div>
-	<div class="readonly"><span>Frequency (Hz)</span><input type="text" id="frequency" readonly /></div>
-	<div><label><span>Helmholtz pitch notation</span><input type="text" id="helmholtz" /></label></div>
-	<div><label><span>Scientific pitch notation</span><input type="text" id="scientific" /></label></div>
-	<div><label><span>Guitar Pro</span><input type="text" id="guitarpro" /></label></div>
-	<div><label><span>Yamaha</span><input type="text" id="yamaha" /></label></div>
-	<div class="readonly"><span>MIDI</span><input type="text" id="midi" readonly /></div>
+	<div class="readonly">
+		<span>Frequency (Hz)</span>
+		<input type="text" id="frequency" value="82.4075, 110, 146.83, 196, 246.94, 329.63" readonly />
+	</div>
+	<div><label>
+		<span>Helmholtz pitch notation</span>
+		<input type="text" id="helmholtz" value="E A d g b e′" />
+	</label></div>
+	<div><label>
+		<span>Scientific pitch notation</span>
+		<input type="text" id="scientific" value="E2, A2, D3, G3, B3, E4" />
+	</label></div>
+	<div><label>
+		<span>Guitar Pro</span>
+		<input type="text" id="guitarpro" value="E3, A3, D4, G4, B4, E5" />
+	</label></div>
+	<div><label>
+		<span>Yamaha, Encore</span>
+		<input type="text" id="yamaha" value="E1, A1, D2, G2, B2, E3" />
+	</label></div>
+	<div class="readonly">
+		<span>MIDI</span>
+		<input type="text" id="midi" value="40, 45, 50, 55, 59, 64" readonly />
+	</div>
 </div>
 
 <p><a href="https://www.patreon.com/FutureMillennium">Consider supporting on Patreon</a></p>
 
 <p>© 2017 <a href="http://futuremillennium.com/">Zdeněk Gromnica aka FutureMillennium</a></p>
 
+
+
 <script>
-//document.addEventListener('DOMContentLoaded', function(event) {
 
 var notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 var noteFrequencies = [
@@ -131,6 +150,7 @@ var frequencyInput = document.getElementById('frequency'),
 	guitarProInput = document.getElementById('guitarpro'),
 	yamahaInput = document.getElementById('yamaha'),
 	midiInput = document.getElementById('midi');
+var inputs = [frequencyInput, helmholtzInput, scientificInput, guitarProInput, yamahaInput, midiInput];
 var prevFrequencyText = '',
 	prevHelmholtzText = '',
 	prevScientificText = '',
@@ -138,6 +158,7 @@ var prevFrequencyText = '',
 	prevYamahaText = '',
 	prevMIDIText = '';
 var curNotes;
+var isDefaultValue = true;
 
 function AddNoteGlobal(curItem) {
 	if (curItem.octave == '-')
@@ -377,6 +398,8 @@ function AcceptScientific(field) {
 	} else {
 		field.className = '';
 	}
+
+	isDefaultValue = false;
 }
 
 helmholtzInput.onkeyup = function (e) {
@@ -525,6 +548,7 @@ helmholtzInput.onkeyup = function (e) {
 		}
 
 		prevHelmholtzText = this.value;
+		isDefaultValue = false;
 	}
 };
 
@@ -587,7 +611,17 @@ yamahaInput.onkeyup = function (e) {
 	}
 };
 
-//});
+for (var i = 0; i < inputs.length; i++) {
+	inputs[i].onfocus = function() {
+		if (isDefaultValue) {
+			this.select();
+		} else {
+			this.onfocus = null;
+		}
+	};
+}
+
+
 </script>
 
 </body>
