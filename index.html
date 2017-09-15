@@ -9,28 +9,39 @@
 body {
 	font-size: 16px;
 	font-family: sans-serif;
-	background-color: #F8F8F8;
-	margin: 25px 25px 75px;
+	background-color: white;
+	margin: 0 0 75px;
 	line-height: 1.35;
 }
 h1 {
 	font-size: 24px;
 	background: #eee;
-    margin: -25px -25px 25px;
-    padding: 25px;
+    margin: 0;
+    padding: 35px 25px 25px;
 }
 h1 span {
 	font-size: 18px;
 	font-weight: normal;
 }
-div {
+.main {
 	width: 100%;
-	margin-bottom: 40px;
+	margin-bottom: 35px;
+	background-color: #F8F8F8;
+	overflow: hidden;
 }
-div div {
+.main > div {
+	margin: 25px 25px 40px;
+}
+.row {
 	position: relative;
 	height: 50px;
 	margin: 0;
+}
+.main span {
+	width: 180px;
+	text-align: right;
+	display: inline-block;
+	line-height: 40px;
 }
 input {
 	font-size: 16px;
@@ -49,12 +60,6 @@ input[readonly] {
 .readonly {
 	color: #999;
 }
-div span {
-	width: 180px;
-	text-align: right;
-	display: inline-block;
-	line-height: 40px;
-}
 a {
 	color: black;
 	background-image: linear-gradient(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.12));
@@ -63,7 +68,8 @@ a {
 	background-position: left bottom;
 	text-decoration: none;
 	padding-bottom: 1px;
-	transition: color 0.1s linear;
+	transition: color 0.1s linear,
+		background 0.1s linear;
 }
 a:hover {
 	color: #883ef9;
@@ -71,6 +77,9 @@ a:hover {
 }
 .error {
 	outline: 2px red solid;
+}
+.text {
+	margin: 25px;
 }
 li {
 	max-width: 600px;
@@ -81,9 +90,12 @@ p {
 }
 a.button {
 	color: white;
-	padding: 10px 20px;
+	padding: 12px 20px;
 	background: #883ef9;
 	display: inline-block;
+}
+a.button:hover {
+	background: #9F64FF;
 }
 @media screen and (max-width: 600px) {
 	h1 {
@@ -92,7 +104,7 @@ a.button {
 	h1 span {
 		font-size: 16px;
 	}
-	div div {
+	.row {
 		height: auto;
 	}
 	input {
@@ -100,7 +112,7 @@ a.button {
 		width: 100%;
 		display: block;
 	}
-	div span {
+	.main span {
 		width: 100%;
 		display: block;
 	}
@@ -111,48 +123,49 @@ a.button {
 
 <h1>Helmholtz Pitch Notation Converter <span>by <a href="http://futuremillennium.com/">Zdeněk Gromnica aka FutureMillennium</a></span></h1>
 
-<div>
-	<div class="readonly">
+<div class="main"><div>
+	<div class="row readonly">
 		<span>Frequency (Hz)</span>
 		<input type="text" id="frequency" value="82.4075, 110, 146.83, 196, 246.94, 329.63" readonly />
 	</div>
-	<div><label>
+	<div class="row"><label>
 		<span>Helmholtz pitch notation</span>
 		<input type="text" id="helmholtz" value="E A d g b e′" />
 	</label></div>
-	<div><label>
+	<div class="row"><label>
 		<span>Scientific pitch notation</span>
 		<input type="text" id="scientific" value="E2, A2, D3, G3, B3, E4" />
 	</label></div>
-	<div><label>
+	<div class="row"><label>
 		<span>Guitar Pro</span>
 		<input type="text" id="guitarpro" value="E3, A3, D4, G4, B4, E5" />
 	</label></div>
-	<div><label>
+	<div class="row"><label>
 		<span>Yamaha, Encore</span>
 		<input type="text" id="yamaha" value="E1, A1, D2, G2, B2, E3" />
 	</label></div>
-	<div class="readonly">
+	<div class="row readonly">
 		<span>MIDI</span>
 		<input type="text" id="midi" value="40, 45, 50, 55, 59, 64" readonly />
 	</div>
+</div></div>
+
+<div class="text">
+	<ul>
+		<li>Convert between <a href="https://en.wikipedia.org/wiki/Helmholtz_pitch_notation">Helmholtz pitch notation</a> and <a href="https://en.wikipedia.org/wiki/Scientific_pitch_notation">Scientific pitch notation</a> and other formats instantly.</li>
+		<li>Other formats include: 
+			<ul>
+				<li><strong>Frequency (Hz):</strong> the <a href="https://en.wikipedia.org/wiki/Pitch_(music)">pitch</a> or frequency of the note in Hz (Hertz). Assumes A4 = 440 Hz (also known as <a href="https://en.wikipedia.org/wiki/A440_(pitch_standard)">A440, A4, or the Stuttgart pitch</a>).</li>
+				<li><strong>Guitar Pro:</strong> scientific pitch notation used in <a href="https://en.wikipedia.org/wiki/Guitar_Pro">Guitar Pro</a> that is noted an octave higher (i.e. sounds an octave lower).</li>
+				<li><strong>Yamaha, Encore:</strong> scientific pitch notation used in some Japanese literature, Yamaha manuals and <a href="https://en.wikipedia.org/wiki/Encore_(software)">Encore</a>, that is noted an octave lower (i.e. sounds an octave higher).</li>
+			</ul>
+		</li>
+	</ul>
+
+	<p><a href="https://www.patreon.com/FutureMillennium" class="button">Consider supporting on Patreon</a></p>
+
+	<p>© 2017 <a href="http://futuremillennium.com/">Zdeněk Gromnica aka FutureMillennium</a></p>
 </div>
-
-<ul>
-	<li>Convert between <a href="https://en.wikipedia.org/wiki/Helmholtz_pitch_notation">Helmholtz pitch notation</a> and <a href="https://en.wikipedia.org/wiki/Scientific_pitch_notation">Scientific pitch notation</a> and other formats instantly.</li>
-	<li>Other formats include: 
-		<ul>
-			<li><strong>Frequency (Hz):</strong> the <a href="https://en.wikipedia.org/wiki/Pitch_(music)">pitch</a> or frequency of the note in Hz (Hertz). Assumes A4 = 440 Hz (also known as <a href="https://en.wikipedia.org/wiki/A440_(pitch_standard)">A440, A4, or the Stuttgart pitch</a>).</li>
-			<li><strong>Guitar Pro:</strong> scientific pitch notation used in <a href="https://en.wikipedia.org/wiki/Guitar_Pro">Guitar Pro</a> that is noted an octave higher (i.e. sounds an octave lower).</li>
-			<li><strong>Yamaha, Encore:</strong> scientific pitch notation used in some Japanese literature, Yamaha manuals and <a href="https://en.wikipedia.org/wiki/Encore_(software)">Encore</a>, that is noted an octave lower (i.e. sounds an octave higher).</li>
-		</ul>
-	</li>
-</ul>
-
-<p><a href="https://www.patreon.com/FutureMillennium" class="button">Consider supporting on Patreon</a></p>
-
-<p>© 2017 <a href="http://futuremillennium.com/">Zdeněk Gromnica aka FutureMillennium</a></p>
-
 
 
 <script>
