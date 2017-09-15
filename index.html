@@ -132,7 +132,7 @@ a:hover {
 
 <script>
 
-var notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+var notes = ['C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯', 'A', 'A♯', 'B'];
 var noteFrequencies = [
 	261.63,
 	277.18,
@@ -337,6 +337,7 @@ function AcceptScientific(field) {
 			}
 		}
 		else switch(c) {
+			case '♯':
 			case '#':
 				if (curItem.noteI == null) {
 					isError = true;
@@ -345,6 +346,7 @@ function AcceptScientific(field) {
 					isDone = true;
 				}
 				break;
+			case '♭':
 			case 'b':
 				if (curItem.noteI == null) {
 					// might be the B note
