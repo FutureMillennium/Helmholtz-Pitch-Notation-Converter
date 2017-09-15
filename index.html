@@ -406,7 +406,7 @@ function AcceptScientific(field) {
 	isDefaultValue = false;
 }
 
-helmholtzInput.onkeyup = function (e) {
+function HelmholtzChanged(e) {
 	if (prevHelmholtzText != this.value) {
 		var text = this.value;
 		var max = text.length;
@@ -556,7 +556,7 @@ helmholtzInput.onkeyup = function (e) {
 	}
 };
 
-scientificInput.onkeyup = function (e) {
+function ScientificChanged(e) {
 	if (prevScientificText != this.value) {
 		AcceptScientific(this);
 
@@ -573,7 +573,7 @@ scientificInput.onkeyup = function (e) {
 	}
 };
 
-guitarProInput.onkeyup = function (e) {
+function GuitarProChanged(e) {
 	if (prevGuitarProText != this.value) {
 		AcceptScientific(this);
 
@@ -594,7 +594,7 @@ guitarProInput.onkeyup = function (e) {
 	}
 };
 
-yamahaInput.onkeyup = function (e) {
+function YamahaChanged(e) {
 	if (prevYamahaText != this.value) {
 		AcceptScientific(this);
 
@@ -614,6 +614,12 @@ yamahaInput.onkeyup = function (e) {
 		prevYamahaText = this.value;
 	}
 };
+
+
+helmholtzInput.oninput = HelmholtzChanged;
+scientificInput.oninput = ScientificChanged;
+guitarProInput.oninput = GuitarProChanged;
+yamahaInput.oninput = YamahaChanged;
 
 for (var i = 0; i < inputs.length; i++) {
 	inputs[i].onfocus = function() {
