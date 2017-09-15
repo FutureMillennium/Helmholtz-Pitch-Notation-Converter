@@ -241,10 +241,14 @@ function AddNoteGlobal(curItem) {
 		if (curItem.octave == null)
 			return false;
 
-		if (curItem.noteI >= notes.length)
+		if (curItem.noteI >= notes.length) {
+			curItem.octave += Math.floor(curItem.noteI / notes.length);
 			curItem.noteI = curItem.noteI % notes.length;
-		else while (curItem.noteI < 0)
+		}
+		else while (curItem.noteI < 0) {
 			curItem.noteI += 12;
+			curItem.octave -= 1;
+		}
 
 		curNotes.push(curItem);
 		return true;
@@ -390,7 +394,7 @@ function AcceptScientific(field) {
 
 	for (var i = 0; i < max; i++) {
 		var isDone = false;
-		var c = text[i].toUpperCase();
+		var c = text[i];
 
 		if (c >= '0' && c <= '9') {
 			if (curItem.octave == null || curItem.octave == '-') {
@@ -451,6 +455,7 @@ function AcceptScientific(field) {
 		if (isDone == true)
 			continue;
 
+		c = c.toUpperCase();
 		var noteI = notes.indexOf(c);
 
 		if (noteI != -1) {
@@ -528,6 +533,7 @@ function HelmholtzChanged(e) {
 				}
 			}
 			else switch(c) {
+				case '♯':
 				case '#':
 					if (curItem.noteI == null) {
 						isError = true;
@@ -536,6 +542,7 @@ function HelmholtzChanged(e) {
 						isDone = true;
 					}
 					break;
+				case '♭':
 				case 'b':
 					if (curItem.noteI == null) {
 						// might be the B note
