@@ -11,6 +11,7 @@ body {
 	font-family: sans-serif;
 	background-color: #F8F8F8;
 	margin: 25px 25px 75px;
+	line-height: 1.35;
 }
 h1 {
 	font-size: 24px;
@@ -48,7 +49,6 @@ input[readonly] {
 .readonly {
 	color: #999;
 }
-
 div span {
 	width: 180px;
 	text-align: right;
@@ -63,6 +63,7 @@ a {
 	background-position: left bottom;
 	text-decoration: none;
 	padding-bottom: 1px;
+	transition: color 0.1s linear;
 }
 a:hover {
 	color: #883ef9;
@@ -70,6 +71,19 @@ a:hover {
 }
 .error {
 	outline: 2px red solid;
+}
+li {
+	max-width: 600px;
+	margin: 3px 0 7px;
+}
+p {
+	margin-top: 25px;
+}
+a.button {
+	color: white;
+	padding: 10px 20px;
+	background: #883ef9;
+	display: inline-block;
 }
 @media screen and (max-width: 600px) {
 	h1 {
@@ -124,7 +138,18 @@ a:hover {
 	</div>
 </div>
 
-<p><a href="https://www.patreon.com/FutureMillennium">Consider supporting on Patreon</a></p>
+<ul>
+	<li>Convert between <a href="https://en.wikipedia.org/wiki/Helmholtz_pitch_notation">Helmholtz pitch notation</a> and <a href="https://en.wikipedia.org/wiki/Scientific_pitch_notation">Scientific pitch notation</a> and other formats instantly.</li>
+	<li>Other formats include: 
+		<ul>
+			<li><strong>Frequency (Hz):</strong> the <a href="https://en.wikipedia.org/wiki/Pitch_(music)">pitch</a> or frequency of the note in Hz (Hertz). Assumes A4 = 440 Hz (also known as <a href="https://en.wikipedia.org/wiki/A440_(pitch_standard)">A440, A4, or the Stuttgart pitch</a>).</li>
+			<li><strong>Guitar Pro:</strong> scientific pitch notation used in <a href="https://en.wikipedia.org/wiki/Guitar_Pro">Guitar Pro</a> that is noted an octave higher (i.e. sounds an octave lower).</li>
+			<li><strong>Yamaha, Encore:</strong> scientific pitch notation used in some Japanese literature, Yamaha manuals and <a href="https://en.wikipedia.org/wiki/Encore_(software)">Encore</a>, that is noted an octave lower (i.e. sounds an octave higher).</li>
+		</ul>
+	</li>
+</ul>
+
+<p><a href="https://www.patreon.com/FutureMillennium" class="button">Consider supporting on Patreon</a></p>
 
 <p>© 2017 <a href="http://futuremillennium.com/">Zdeněk Gromnica aka FutureMillennium</a></p>
 
