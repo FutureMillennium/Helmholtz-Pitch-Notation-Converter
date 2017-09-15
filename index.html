@@ -69,7 +69,8 @@ a {
 	text-decoration: none;
 	padding-bottom: 1px;
 	transition: color 0.1s linear,
-		background 0.1s linear;
+		background 0.1s linear,
+		box-shadow 0.1s linear;
 }
 a:hover {
 	color: #883ef9;
@@ -85,17 +86,30 @@ li {
 	max-width: 600px;
 	margin: 3px 0 7px;
 }
-p {
-	margin-top: 25px;
+.footer {
+	margin-top: 35px;
+	font-size: 14px;
+	color: #a5a5a5;
 }
-a.button {
+.footer a {
+	color: #a5a5a5;
+	background-size: 1px 1px;
+}
+.footer a:hover {
+	color: #883ef9;
+}
+.button {
 	color: white;
-	padding: 12px 20px;
-	background: #883ef9;
+	padding: 12px 20px 12px 45px;
 	display: inline-block;
+	background: #F96854 url(images/patreon-logomark.png) no-repeat 0 0;
+	background-size: auto 100%;
 }
-a.button:hover {
-	background: #9F64FF;
+.button:hover {
+	background: #FA7664 url(images/patreon-logomark.png) no-repeat 0 0;
+	background-size: auto 100%;
+	color: white;
+	box-shadow: 0 0.25rem 0.75rem rgba(5,45,73,0.1);
 }
 @media screen and (max-width: 600px) {
 	h1 {
@@ -121,7 +135,7 @@ a.button:hover {
 </head>
 <body>
 
-<h1>Helmholtz Pitch Notation Converter <span>by <a href="http://futuremillennium.com/">Zdeněk Gromnica aka FutureMillennium</a></span></h1>
+<h1>Helmholtz Pitch Notation Converter <span>by <a href="http://futuremillennium.com/" target="_blank">Zdeněk Gromnica aka FutureMillennium</a></span></h1>
 
 <div class="main"><div>
 	<div class="row readonly">
@@ -152,19 +166,19 @@ a.button:hover {
 
 <div class="text">
 	<ul>
-		<li>Convert between <a href="https://en.wikipedia.org/wiki/Helmholtz_pitch_notation">Helmholtz pitch notation</a> and <a href="https://en.wikipedia.org/wiki/Scientific_pitch_notation">Scientific pitch notation</a> and other formats instantly.</li>
+		<li>Convert between <a href="https://en.wikipedia.org/wiki/Helmholtz_pitch_notation" target="_blank">Helmholtz pitch notation</a> and <a href="https://en.wikipedia.org/wiki/Scientific_pitch_notation" target="_blank">Scientific pitch notation</a> and other formats instantly.</li>
 		<li>Other formats include: 
 			<ul>
-				<li><strong>Frequency (Hz):</strong> the <a href="https://en.wikipedia.org/wiki/Pitch_(music)">pitch</a> or frequency of the note in Hz (Hertz). Assumes A4 = 440 Hz (also known as <a href="https://en.wikipedia.org/wiki/A440_(pitch_standard)">A440, A4, or the Stuttgart pitch</a>).</li>
-				<li><strong>Guitar Pro:</strong> scientific pitch notation used in <a href="https://en.wikipedia.org/wiki/Guitar_Pro">Guitar Pro</a> that is noted an octave higher (i.e. sounds an octave lower).</li>
-				<li><strong>Yamaha, Encore:</strong> scientific pitch notation used in some Japanese literature, Yamaha manuals and <a href="https://en.wikipedia.org/wiki/Encore_(software)">Encore</a>, that is noted an octave lower (i.e. sounds an octave higher).</li>
+				<li><strong>Frequency (Hz):</strong> the <a href="https://en.wikipedia.org/wiki/Pitch_(music)" target="_blank">pitch</a> or frequency of the note in Hz (Hertz). Assumes A4 = 440 Hz (also known as <a href="https://en.wikipedia.org/wiki/A440_(pitch_standard)" target="_blank">A440, A4, or the Stuttgart pitch</a>).</li>
+				<li><strong>Guitar Pro:</strong> scientific pitch notation used in <a href="https://en.wikipedia.org/wiki/Guitar_Pro" target="_blank">Guitar Pro</a> that is noted an octave higher (i.e. sounds an octave lower).</li>
+				<li><strong>Yamaha, Encore:</strong> scientific pitch notation used in some Japanese literature, Yamaha manuals and <a href="https://en.wikipedia.org/wiki/Encore_(software)" target="_blank">Encore</a>, that is noted an octave lower (i.e. sounds an octave higher).</li>
 			</ul>
 		</li>
 	</ul>
 
-	<p><a href="https://www.patreon.com/FutureMillennium" class="button">Consider supporting on Patreon</a></p>
+	<p><a href="https://www.patreon.com/FutureMillennium" target="_blank" class="button">Consider supporting on Patreon</a></p>
 
-	<p>© 2017 <a href="http://futuremillennium.com/">Zdeněk Gromnica aka FutureMillennium</a></p>
+	<p class="footer">© 2017 <a href="http://futuremillennium.com/" target="_blank">Zdeněk Gromnica aka FutureMillennium</a></p>
 </div>
 
 
