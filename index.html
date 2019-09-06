@@ -175,9 +175,9 @@ li {
 		<span>Yamaha, Encore</span>
 		<input type="text" id="yamaha" value="E1, A1, D2, G2, B2, E3" />
 	</label></div>
-	<div class="row readonly">
+	<div class="row">
 		<span>MIDI</span>
-		<input type="text" id="midi" value="40, 45, 50, 55, 59, 64" readonly />
+		<input type="text" id="midi" value="40, 45, 50, 55, 59, 64" />
 	</div>
 </div></div>
 
@@ -200,6 +200,7 @@ li {
 
 
 <script>
+'use strict';
 
 var notes = ['C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯', 'A', 'A♯', 'B'];
 var noteFrequencies = [
@@ -356,8 +357,8 @@ function OutputYamaha() {
 }
 
 function OutputMIDI() {
-	output = '';
-	max = curNotes.length;
+	var output = '';
+	var max = curNotes.length;
 
 	for (var i = 0; i < max; i++) {
 		var note = curNotes[i];
@@ -693,11 +694,67 @@ function YamahaChanged(e) {
 	}
 };
 
+function MidiChanged(e) {
+
+	if (prevMIDIText != this.value) {
+		
+		var curItem;
+
+		function InitCurItem() {
+			curItem = {
+				noteI: null,
+				octave: -1,
+			};
+		}
+
+		InitCurItem();
+		curNotes = [];
+		var prevI = 0;
+
+		for (var i = 0; i < midi.value.length; i++) {
+			var c = midi.value[i];
+			if (c === ' ' || c === ',') {
+				if (i > prevI) {
+					curItem.noteI = parseInt(midi.value.substring(prevI, i));
+
+					if (isNaN(curItem.noteI) === false)
+						AddNoteGlobal(curItem);
+
+					InitCurItem();
+				}
+				
+				prevI = i;
+			}
+		}
+
+		if (i > prevI) {
+			curItem.noteI = parseInt(midi.value.substring(prevI, i));
+
+			if (isNaN(curItem.noteI) === false)
+				AddNoteGlobal(curItem);
+
+			InitCurItem();
+		}
+
+		if (curNotes.length > 0) {
+			OutputFrequency();
+			OutputHelmholtz();
+			OutputScientific();
+			OutputGuitarPro();
+			OutputYamaha();
+			// this
+		}
+
+		prevMIDIText = this.value;
+	}
+};
+
 
 helmholtzInput.oninput = HelmholtzChanged;
 scientificInput.oninput = ScientificChanged;
 guitarProInput.oninput = GuitarProChanged;
 yamahaInput.oninput = YamahaChanged;
+midi.oninput = MidiChanged;
 
 for (var i = 0; i < inputs.length; i++) {
 	inputs[i].onfocus = function() {
@@ -710,6 +767,10 @@ for (var i = 0; i < inputs.length; i++) {
 }
 
 if('serviceWorker' in navigator) {
+	/*navigator.serviceWorker.getRegistrations().then(function(registrations) {
+		for(let registration of registrations) {
+  			registration.unregister()
+		}});*/
 	navigator.serviceWorker.register('serviceworker.js');
 }
 
